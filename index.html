@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pausa.Café</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inconsolata">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+<!--Barra de Navegação-->
+<nav>
+    <a href="#home">Home</a>
+    <a href="#about">Sobre</a>
+    <a href="#menu">Menu</a>
+    <a href="#login">Login</a>
+    <a href="#contact">Contato</a>
+</nav>
+
+<header id="home">
+    <h1>Pausa.Café</h1>
+    <p>Aberto das 06h às 17h</p>
+    <div style="margin-top: 20px;">Endereço</div>
+</header>
+
+<div class="container" id="about">
+    <div class="section-title">
+        <span>SOBRE NÓS</span>
+    </div>
+    <p>O Pausa.Café foi fundado em 2026 por amantes do grão. Nosso objetivo é trazer a melhor experiência sensorial em cada xícara.</p>
+    <br>
+    <div style="border-left: 5px solid #ccc; padding-left: 20px; background: #eee; padding: 15px;">
+        <p><i>"O café é a única bebida que, quando quente, aquece a alma e, quando gelada, refresca a mente."</i></p>
+        <p><strong>Dono: </strong></p>
+    </div>
+    <img src="https://www.w3schools.com/w3images/coffeeshop.jpg" alt="Café" style="width:100%; margin-top: 30px;">
+</div>
+
+<div class="container" id="menu">
+    <div class="section-title">
+        <span>MENU</span>
+    </div>
+
+    <div class="menu-tabs">
+        <button class="tab-btn active" onclick="toggleMenu(event, 'eat')">Comer</button>
+        <button class="tab-btn" onclick="toggleMenu(event, 'drink')">Beber</button>
+    </div>
+
+    <div id="eat" class="menu-content active">
+        <div class="menu-item">
+            <h4>Cesta de Pães</h4>
+            <p>Sortido de pães de frutas e muffins 5.50</p>
+        </div>
+        <div class="menu-item">
+            <h4>Waffle Belga</h4>
+            <p>Massa com baunilha e farinha maltada 7.50</p>
+        </div>
+    </div>
+
+    <div id="drink" class="menu-content">
+        <div class="menu-item">
+            <h4>Café Regular</h4>
+            <p>Grão selecionado da região 2.50</p>
+        </div>
+        <div class="menu-item">
+            <h4>Chocolato</h4>
+            <p>Espresso com chocolate e leite 4.50</p>
+        </div>
+    </div>
+</div>
+
+<!--Radapé-->
+<footer>
+    <p> &copy 2026 Pausa.Café - Todos os direitos reservados.</p>
+</footer>
+
+<!--Link do Java Script-->
+ <script src="assets/js/script.js"></script>
+
+</body>
+</html>

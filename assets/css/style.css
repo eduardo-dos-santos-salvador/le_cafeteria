@@ -1,0 +1,146 @@
+
+        /* CSS RESET & CONFIGURAÇÕES GERAIS */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            height: 100%;
+            font-family: "Inconsolata", sans-serif;
+            background-color: #f5f5dc; /* Cor "sand" (areia) */
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* NAVEGAÇÃO FIXA */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: black;
+            color: white;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav a {
+            color: white;
+            padding: 15px 25px;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #555;
+        }
+
+        /* HEADER / IMAGEM DE FUNDO */
+        header {
+            height: 75%;
+            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://www.w3schools.com/w3images/coffeehouse.jpg');
+            background-position: center;
+            background-size: cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+            margin-top: 48px; /* Espaço para o menu fixo */
+        }
+
+        header h1 {
+            font-size: 80px;
+        }
+
+        header p {
+            background-color: black;
+            padding: 5px 15px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        /* CONTAINER DE CONTEÚDO */
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title span {
+            background-color: black;
+            color: white;
+            padding: 8px 16px;
+            letter-spacing: 4px;
+            font-size: 20px;
+        }
+
+        /* MENU TABS */
+        .menu-tabs {
+            display: flex;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            background-color: white;
+            border: none;
+            font-family: inherit;
+            font-size: 18px;
+        }
+
+        .tab-btn.active {
+            background-color: #616161;
+            color: white;
+        }
+
+        .menu-content {
+            display: none;
+            background-color: white;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .menu-content.active {
+            display: block;
+        }
+
+        .menu-item {
+            margin-bottom: 20px;
+        }
+
+        .menu-item h4 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .menu-item p {
+            color: #777;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 40px;
+            background-color: #f1f1f1;
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 600px) {
+            header h1 { font-size: 50px; }
+            nav { flex-direction: column; text-align: center; }
+        }
