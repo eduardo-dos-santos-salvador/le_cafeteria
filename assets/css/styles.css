@@ -1,0 +1,565 @@
+/* ==========================================================================
+   1. RESET, CONFIGURAÇÕES GERAIS E DESIGN TOKENS
+   ========================================================================== */
+
+   :root {
+    /* Paleta de Cores (Design Tokens) */
+    --color-primary: #3E2723;
+    --color-primary-light: #8D6E63;
+    --color-accent: #F5E6CA;
+    --color-bg-main: #BA9D8A;
+    --color-bg-content: #FFF8F0;
+    --color-text-dark: #333333;
+    --color-text-muted: #777777;
+    --color-success: #2E7D32;
+    --color-white: #FFFFFF;
+    --color-border: #CCCCCC;
+
+    /* Tipografia */
+    --font-family-base: system-ui, -apple-system, Helvetica, Arial, sans-serif;
+}
+
+* {
+        box-sizing: border-box;
+        margin: 0; /* Remove margens padrão do navegador */
+        padding: 0; /* Remove preenchimentos padrão do navegador */
+    }
+
+    button {
+        font: inherit;
+        appearance: none;
+        -webkit-appearance: none;
+        border: none;
+        background: none;
+    }
+
+    /* ==========================================================================
+    2. ESTILOS GLOBAIS
+    ========================================================================== */
+
+    body, html {
+        height: 100%;
+        font-family: var(--font-family-base);
+        background-color: var(--color-bg-main);
+        color: var(--color-text-dark);
+        line-height: 1.6;
+    }
+
+    /* ==========================================================================
+    3. COMPONENTES REUTILIZÁVEIS
+    ========================================================================== */
+
+    /* COMPONENTE: Abas de Menu (Tabs) */
+    .menu-tabs {
+        display: flex;
+        border: 1px solid var(--color-border);
+        margin-bottom: 1.25rem;
+    }
+
+    .tab-btn {
+        flex: 1;
+        padding: 0.9375rem;
+        text-align: center;
+        cursor: pointer;
+        background-color: var(--color-white);
+        border: none;
+        font-family: inherit;
+        font-size: 1.125rem;
+    }
+
+    .tab-btn.active {
+        background-color: var(--color-primary-light);
+        color: var(--color-accent);
+    }
+
+    /* COMPONENTE: Itens do Cardápio */
+    .menu-content {
+        display: none;
+        background-color: var(--color-bg-content);
+        padding: 1.875rem;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+        overflow: visible;
+        height: auto;
+    }
+
+    .menu-content.active {
+        display: block;
+    }
+
+    .menu-item {
+        margin-bottom: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        height: auto;
+        overflow: visible;
+    }
+
+    .menu-item h4 {
+        font-size: 1.125rem;
+        margin-bottom: 0.3125rem;
+    }
+
+    .menu-item p {
+        color: var(--color-text-muted);
+    }
+
+    /* COMPONENTE: Caixa de Citação (Quote Box) */
+    .quote-box {
+        border-left: 5px solid var(--color-border);
+        background: #EEEEEE;
+        padding: 0.9375rem;
+        padding-left: 1.25rem;
+        margin-top: 1.25rem;
+    }
+
+    .img-produtores{
+        border-left: 5px solid var(--color-border);
+        background: #EEEEEE;
+        padding: 0.9375rem;
+        padding-left: 1.25rem;
+        margin-top: 1.25rem;
+    }
+
+    /* COMPONENTE: Botão Adicionar ao Carrinho */
+    .pausa-carrinho-btn-adicionar {
+        appearance: none;
+        -webkit-appearance: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        margin-top: 0.75rem;
+        padding: 0.625rem 1rem;
+        background-color: var(--color-primary);
+        color: var(--color-accent);
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.875rem;
+        font-weight: 600;
+        line-height: 1.2;
+        min-height: 40px;
+        text-rendering: geometricPrecision;
+        transition: background-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .pausa-carrinho-btn-adicionar:hover {
+        opacity: 0.92;
+        transform: translateY(-1px);
+    }
+
+    .pausa-carrinho-btn-adicionar:active {
+        transform: scale(0.98);
+    }
+
+    .pausa-carrinho-btn-success {
+        background-color: var(--color-success);
+    }
+
+    .pausa-carrinho-btn-loading {
+        opacity: 0.7;
+        pointer-events: none;
+    }
+
+    .pausa-carrinho-feedback {
+        display: block;
+        margin-top: 0.5rem;
+        min-height: 1.125rem;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        color: var(--color-success);
+    }
+
+    /* ==========================================================================
+    4. SEÇÕES ESPECÍFICAS
+    ========================================================================== */
+
+    /* SEÇÃO: Barra de Navegação Fina (Navbar) */
+    nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background-color: var(--color-primary);
+        color: var(--color-white);
+        z-index: 1000;
+        min-height: 70px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .nav-container {
+        width: 100%;
+        max-width: 1200px;
+        display: flex;
+        align-items: center;
+        padding: 0 2.5rem;
+    }
+
+    .nav-logo-text {
+        font-size: 1.5625rem;
+        font-weight: bold;
+        letter-spacing: 3px;
+        color: var(--color-accent);
+        text-decoration: none;
+        text-transform: none;
+    }
+
+    .nav-links {
+        display: flex;
+        margin-left: auto; /* Empurra os links para o canto direito isolando a logo */
+    }
+
+    nav a {
+        color: var(--color-accent);
+        padding: 0.9375rem 1.5625rem;
+        text-decoration: none;
+        text-transform: capitalize;
+        font-size: 0.9375rem;
+        transition: opacity 0.3s ease; /* Corrigido de 'background' para 'opacity' */
+    }
+
+    nav a:hover {
+        opacity: 0.7;
+    }
+
+    .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-left: 2rem;
+        flex-shrink: 0; 
+    }
+
+    /* SEÇÃO: Botão e Ícones do Carrinho Interno à Nav */
+    .cart-button {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+        color: var(--color-accent);
+        width: 42px;
+        height: 42px;
+        transition: opacity 0.3s ease;
+    }
+
+    .cart-button:hover {
+        opacity: 0.7;
+    }
+
+    .cart-icon {
+        font-size: 1.5rem;
+        line-height: 1;
+    }
+
+    .cart-counter {
+        position: absolute;
+        top: -4px;
+        right: -6px;
+        min-width: 18px;
+        height: 18px;
+        padding: 0 4px;
+        border-radius: 999px;
+        background-color: var(--color-accent);
+        color: var(--color-primary);
+        font-size: 0.6875rem;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* SEÇÃO: Menu Hamburguer (Mobile) Trigger Base */
+    .menu-toggle {
+        display: none;
+        font-size: 1.625rem;
+        color: var(--color-white);
+        padding: 0.9375rem;
+        cursor: pointer;
+        background: none;
+        border: none;
+    }
+
+    .menu-toggle:focus-visible {
+        outline: 2px solid var(--color-accent);
+        outline-offset: 2px;
+    }
+
+    /* SEÇÃO: Banner Hero Principal (Header) */
+    header {
+        height: 75%;
+        background-color: var(--color-primary);
+        background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('../img/ambiente.png');
+        background-position: center;
+        background-size: cover;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: var(--color-accent);
+        text-align: center;
+        margin-top: 60px;
+    }
+
+    header h1 {
+        font-size: clamp(2.5rem, 8vw, 5rem); /* Escalabilidade fluida de fonte */
+    }
+
+    header p {
+        background-color: var(--color-primary);
+        padding: 5px 15px;
+        display: inline-block;
+        margin-top: 10px;
+    }
+
+    /* SEÇÃO: Container do Corpo de Conteúdo */
+    .container {
+        max-width: 700px;
+        margin: 0 auto;
+        padding: 3.75rem 1.25rem;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 2.5rem;
+    }
+
+    .section-title span {
+        background-color: var(--color-primary);
+        color: var(--color-accent);
+        padding: 8px 16px;
+        letter-spacing: 4px;
+        font-size: 1.25rem;
+    }
+
+    .header-address {
+        margin-top: 1.25rem;
+    }
+
+    .about-img {
+        width: 100%;
+        margin-top: 1.875rem;
+        border-radius: 8px;
+    }
+
+    /* SEÇÃO: Rodapé (Footer) */
+    footer {
+        text-align: center;
+        padding: 1.875rem;
+        background-color: var(--color-primary);
+        color: var(--color-accent);
+        font-size: 1.0625rem;
+        letter-spacing: 1px;
+        opacity: 0.95;
+    }
+
+    /* ==========================================================================
+    4.5. PÁGINAS ESPECÍFICAS: Cadastro (cadastro.php)
+    ========================================================================== */
+
+    /* Card centralizado que envolve o formulário */
+    .login-container {
+        background-color: var(--color-bg-content);
+        max-width: 650px;
+        margin: 120px auto 60px auto; /* Afasta 120px do topo para não sumir sob a Nav fixa */
+        padding: 2.5rem 2rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Garante espaçamento abaixo do título dentro do card */
+    .login-container .section-title {
+        margin-bottom: 2rem;
+    }
+
+    /* Linha do formulário (agrupa 2 inputs lado a lado no desktop) */
+    .form-row {
+        display: flex;
+        gap: 1.25rem;
+        margin-bottom: 1.25rem;
+    }
+
+    /* Bloco individual de Input + Label */
+    .input-group {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.375rem;
+    }
+
+    .input-group label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--color-text-dark);
+    }
+
+    .input-group input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid var(--color-border);
+        border-radius: 6px;
+        font-family: inherit;
+        font-size: 0.9375rem;
+        background-color: var(--color-white);
+        color: var(--color-text-dark);
+        box-sizing: border-box;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    /* Botão de Envio (Estilo herda os padrões visuais do botão do carrinho) */
+    .btn-login {
+        width: 100%;
+        margin-top: 1rem;
+        padding: 0.75rem 1.5rem;
+        background-color: var(--color-primary);
+        color: var(--color-accent);
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 6px;
+        cursor: pointer;
+        text-align: center;
+        box-sizing: border-box;
+        transition: background-color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    /* Links do Rodapé do Formulário */
+    .login-footer-links {
+        margin-top: 1.5rem;
+        text-align: center;
+    }
+
+    .forgot-link {
+        color: var(--color-primary-light);
+        font-size: 0.875rem;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s ease;
+    }
+
+    /* ==========================================================================
+    INTERAÇÕES E EFEITOS DINÂMICOS (cadastro.php)
+    ========================================================================== */
+
+    /* Foco nos Inputs */
+    .input-group input:focus {
+        outline: none;
+        border-color: var(--color-primary-light);
+        box-shadow: 0 0 0 3px rgba(141, 110, 99, 0.15);
+    }
+
+    /* Inputs Desativados */
+    .input-group input:disabled {
+        background-color: var(--color-border);
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    /* Hover no Botão Principal */
+    .btn-login:hover {
+        opacity: 0.92;
+        transform: translateY(-1px);
+    }
+
+    /* Clique no Botão Principal */
+    .btn-login:active {
+        transform: scale(0.99);
+    }
+
+    /* Hover no Link de Alternância */
+    .forgot-link:hover {
+        color: var(--color-primary);
+        text-decoration: underline;
+    }
+
+    /* ==========================================================================
+    5. UTILITÁRIOS
+    ========================================================================== */
+
+    /* Espaço reservado para classes utilitárias globais furtivas (ex: .text-center) */
+
+
+    /* ==========================================================================
+    6. MEDIA QUERIES (BREAKPOINTS)
+    ========================================================================== */
+
+    @media (max-width: 768px) {
+        nav {
+            justify-content: flex-start;
+            padding: 0 1.25rem; 
+        }
+
+        .nav-container {
+            padding: 0;
+        }
+
+        .nav-logo-text {
+            position: static;
+            margin-left: 0;
+        }
+
+        .menu-toggle {
+            display: block;
+            margin: 0;
+            padding: 0;
+            width: 36px;
+            height: 36px;
+        }
+
+        .nav-actions {
+            margin-left: auto;
+            gap: 10px;
+        }
+
+        .cart-button {
+            width: 36px;
+            height: 36px;
+        }
+
+        .cart-icon {
+            font-size: 1.375rem;
+        }
+
+        .nav-links {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            background-color: var(--color-primary);
+            padding: 1.25rem 0;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+        }
+
+        .nav-links.active {
+            display: flex;
+        }
+
+        .nav-links a {
+            width: 100%;
+            text-align: center;
+            padding: 0.9375rem 0;
+            border-bottom: 1px solid rgba(255, 245, 226, 0.1);
+        }
+
+        /* =============================================
+         ADICIONADO: Ajustes do Cadastro em Telas Mobile
+         =============================================== */
+        .login-container {
+            margin-top: 100px; /* Reduz o espaçamento do topo em telas menores */
+            padding: 2rem 1.25rem;
+        }
+
+        .form-row {
+            flex-direction: column; /* Faz os campos que ficavam lado a lado empilharem verticalmente */
+            gap: 1.25rem;
+        }
+
+    
+
+}
