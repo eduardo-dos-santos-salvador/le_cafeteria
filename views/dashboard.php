@@ -10,7 +10,7 @@ include_once 'views/includes/cabecalho.php';
         <header id="home">
             <h1>Pausa.Café</h1>
             <p>Aberto das 06h às 17h</p>
-            <div class="header-address">Área Especial 1, Conjunto A, lote 4, Setor Tradicional, Brazlândia/DF - CEP: 73.334-660</div>
+            <div class="header-address">Rua das Rosas, Conjunto B, Lote 05, Setor 7, Brazlândia/DF - CEP: 73.334-660</div>
         </header>
 
         <!-- SOBRE NÓS -->
@@ -25,13 +25,13 @@ include_once 'views/includes/cabecalho.php';
                 <p><i>"O café é a única bebida que, quando quente, aquece a alma e, quando gelada, refresca a mente."</i></p><br>
                 <p><strong>Dono: Tadeu Adhemar</strong></p>
             </div>
-            <img src="assets/img/equipe.png" alt="Café" class="about-img">
+            <img src="assets/img/sobre/equipe.png" alt="Café" class="about-img">
             <br><br><br>
             
                <div class="img-produtores" id="about">
                 <p>Nossos Fornecedores:</p>
             </div>
-            <img src="assets/img/produtores.png" alt="Café" class="about-img">
+            <img src="assets/img/sobre/produtores.png" alt="Café" class="about-img">
             <br><br>
 			
 			<p class="texto-justificado">
@@ -55,86 +55,198 @@ include_once 'views/includes/cabecalho.php';
             <div id="eat" class="menu-content active">
 
                 <div class="menu-item"
-                    data-produto-id="1"
-                    data-produto-nome="Cesta de Pães"
-                    data-produto-preco="5.50">
+				data-produto-id="1"
+				data-produto-nome="Brownie"
+				data-produto-preco="5.50">
 
-                    <h4>Brownie Tradicional</h4>
-                    <p>Denso, com nozes e uma bola de sorvete de creme. R$ 5.50</p>
+                <div class="menu-item-texto">
+                <h4>Brownie</h4>
+                <p>Brownie de chocolate meio amargo</p>
+                <p class="preco">R$ 5.50</p>
+            </div>
 
-                    <button
-                        class="pausa-carrinho-btn-adicionar" type="button">
+                <div class="menu-item-botao">
+                <button class="pausa-carrinho-btn-adicionar" type="button">
+                  Adicionar ao carrinho
+                </button>
+                <span class="pausa-carrinho-feedback"></span>
+            </div>
 
-                        Adicionar ao carrinho
-
-                    </button>
-
-                    <!-- Feedback visual do item -->
-                    <!-- Atualizado dinamicamente pela View -->
-                    <span class="pausa-carrinho-feedback"></span>
-
-
+                <div class="menu-item-foto">
+                <img src="assets/img/itens_menu/brownie.png" alt="Brownie">
                 </div>
+
+</div>
 
                 <div class="menu-item"
                     data-produto-id="2"
                     data-produto-nome="Waffle Belga"
                     data-produto-preco="7.50">
 
+                    <div class="menu-item-texto">
                     <h4>Waffle Belga</h4>
-                    <p>Massa com baunilha e farinha maltada R$ 7.50</p>
+                    <p>Massa com baunilha e farinha maltada</p>
+					<p>R$ 7.50</p>
+                    </div>
 
-                    <button
-                    class="pausa-carrinho-btn-adicionar" type="button">
-
-                    Adicionar ao carrinho
-
-                    </button>
-
-                    <span class="pausa-carrinho-feedback"></span>
+                    <div class="menu-item-botao">
+                <button class="pausa-carrinho-btn-adicionar" type="button">
+                  Adicionar ao carrinho
+                </button>
+                <span class="pausa-carrinho-feedback"></span>
+            </div>
+					
+					<div class="menu-item-foto">
+                    <img src="assets/img/itens_menu/waffle.png" alt="Waffle Belga">
+                    </div>
 
                 </div>
+			
+			    <div class="menu-item"
+                    data-produto-id="3"
+                    data-produto-nome="Croissant"
+                    data-produto-preco="6.00">
+
+                    <div class="menu-item-texto">
+                    <h4>Croissant</h4>
+                    <p>Croissant folhado de manteiga</p>
+					<p>R$ 6.00</p>
+                    </div>
+
+                    <div class="menu-item-botao">
+                <button class="pausa-carrinho-btn-adicionar" type="button">
+                  Adicionar ao carrinho
+                </button>
+                <span class="pausa-carrinho-feedback"></span>
             </div>
+					
+					<div class="menu-item-foto">
+                    <img src="assets/img/itens_menu/croissant.png" alt="Croissant">
+                    </div>
+
+                </div>
+				
+				<div class="menu-item"
+                    data-produto-id="4"
+                    data-produto-nome="Avocado Toast"
+                    data-produto-preco="9.90">
+
+                    <div class="menu-item-texto">
+                    <h4>Avocado Toast</h4>
+                    <p>Pão artesanal com abacate e limão</p>
+					<p>R$ 9.90</p>
+                    </div>
+
+                    <div class="menu-item-botao">
+                <button class="pausa-carrinho-btn-adicionar" type="button">
+                  Adicionar ao carrinho
+                </button>
+                <span class="pausa-carrinho-feedback"></span>
+            </div>
+					
+					<div class="menu-item-foto">
+                    <img src="assets/img/itens_menu/avocado_toast.png" alt="Avocado Toast">
+                    </div>
+
+                </div>
+				
+				<div class="menu-item"
+                    data-produto-id="5"
+                    data-produto-nome="Bolo de Cenoura"
+                    data-produto-preco="6.50">
+
+                    <div class="menu-item-texto">
+                    <h4>Bolo de Cenoura</h4>
+                    <p>Bolo caseiro com cobertura de chocolate</p>
+					<p>R$ 6.50</p>
+                    </div>
+
+                    <div class="menu-item-botao">
+                <button class="pausa-carrinho-btn-adicionar" type="button">
+                  Adicionar ao carrinho
+                </button>
+                <span class="pausa-carrinho-feedback"></span>
+            </div>
+					
+					<div class="menu-item-foto">
+                    <img src="assets/img/itens_menu/bolo_cenoura.png" alt="Bolo de Cenoura">
+                    </div>
+
+                </div>
+				
+				<div class="menu-item"
+                    data-produto-id="6"
+                    data-produto-nome="Wrap de Frango"
+                    data-produto-preco="11.90">
+
+                    <div class="menu-item-texto">
+                    <h4>Wrap de Frango</h4>
+                    <p>Wrap integral com frango grelhado</p>
+					<p>R$ 11.90</p>
+                    </div>
+
+                    <div class="menu-item-botao">
+                <button class="pausa-carrinho-btn-adicionar" type="button">
+                  Adicionar ao carrinho
+                </button>
+                <span class="pausa-carrinho-feedback"></span>
+            </div>
+					
+					<div class="menu-item-foto">
+                    <img src="assets/img/itens_menu/wrap_frango.png" alt="Wrap de Frango">
+                    </div>
+
+                </div>
+				
+				</div>
 
             <div id="drink" class="menu-content">
 
                 <div class="menu-item"
-                    data-produto-id="3"
+                    data-produto-id="7"
                     data-produto-nome="Café Regular"
                     data-produto-preco="2.50">
 
+                    <div class="menu-item-texto">
                     <h4>Café Regular</h4>
-                    <p>Grão selecionado da região R$ 2.50</p>
+                    <p>Grão selecionado da região</p>
+					<p>R$ 2.50</p>
+                    </div>
 
-                    <button
-                        class="pausa-carrinho-btn-adicionar"
-                        type="button">
+                    <div class="menu-item-botao">
+                <button class="pausa-carrinho-btn-adicionar" type="button">
+                  Adicionar ao carrinho
+                </button>
+                <span class="pausa-carrinho-feedback"></span>
+            </div>
 
-                        Adicionar ao carrinho
-
-                    </button>
-
-                    <span class="pausa-carrinho-feedback"></span>
+                    <div class="menu-item-foto">
+                    <img src="assets/img/itens_menu/cafe_regular.png" alt="Café Regular">
+                    </div>
 
                 </div>
 
                 <div class="menu-item"
-                    data-produto-id="4"
+                    data-produto-id="8"
                     data-produto-nome="Chocolato"
                     data-produto-preco="4.50">
 
+                    <div class="menu-item-texto">
                     <h4>Chocolato</h4>
-                    <p>Espresso com chocolate e leite R$ 4.50</p>
+                    <p>Espresso com chocolate e leite</p>
+					<p>R$ 4.50</p>
+                    </div>
 
-                    <button
-                        class="pausa-carrinho-btn-adicionar"
-                        type="button">
+                    <div class="menu-item-botao">
+                <button class="pausa-carrinho-btn-adicionar" type="button">
+                  Adicionar ao carrinho
+                </button>
+                <span class="pausa-carrinho-feedback"></span>
+            </div>
 
-                        Adicionar ao carrinho
-
-                    </button>
-
-                    <span class="pausa-carrinho-feedback"></span>
+                    <div class="menu-item-foto">
+                    <img src="assets/img/itens_menu/chocolato.png" alt="Chocolato">
+                    </div>
 
                 </div>
             </div>

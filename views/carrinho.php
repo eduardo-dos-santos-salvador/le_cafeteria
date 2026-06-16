@@ -22,7 +22,7 @@ include_once 'includes/cabecalho.php';
         </form>
         
 		<div class="pausaCafeCarrinho">
-        <button type="button" onclick="limparCarrinho()" class="tab-btn" style="background-color: #f44336; color: white; margin-top: 10px; border: none; width: 100%; cursor: pointer;">
+        <button type="button" onclick="limparCarrinho()" class="button-tab-btn">
     ESVAZIAR CARRINHO
 </button>
     </div>

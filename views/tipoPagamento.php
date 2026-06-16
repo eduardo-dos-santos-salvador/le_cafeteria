@@ -26,7 +26,7 @@ include_once 'includes/cabecalho.php';
             </div>
 
             <!-- Botão de Finalização da Compra -->
-            <button type="button" class="btn-login" style="width: 100%; margin-top: 30px; border: none;" onclick="limparCarrinho()">
+            <button type="submit" class="btn-login" onclick="limparCarrinho()">
     CONFIRMAR E PAGAR
 </button>
 			

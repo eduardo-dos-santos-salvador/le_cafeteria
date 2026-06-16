@@ -21,7 +21,7 @@ include_once 'includes/cabecalho.php';
 		
 		<div class="input-group">
 		<label for="nome">Seu feedback</label>
-        <textarea name="mensagem" style="box-sizing: border-box; margin: 0px; width: 584px; height: 130px;" placeholder="Digite seu feedback" required=""></textarea>
+        <textarea name="mensagem" placeholder="Digite seu feedback" required=""></textarea>
 		</div>
 		
 		

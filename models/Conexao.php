@@ -1,41 +1,54 @@
 <?php
-class Conexao {
-    // Variável estática e privada que vai guardar a nossa única conexão
+/**
+ * Conexao.php — Conexão PDO com o banco MariaDB (Singleton)
+ *
+ * CREDENCIAIS PADRÃO XAMPP:
+ *   host:   localhost
+ *   user:   root
+ *   senha:  (vazia)
+ *   banco:  le_cafeteria
+ *
+ * Para alterar, edite as constantes abaixo.
+ */
+class Conexao
+{
     private static $instancia;
 
-    // Método estático (pode ser chamado sem precisar dar um 'new Conexao()')
-    public static function getConexao() {
-        
-        // PADRÃO SINGLETON: Só cria a conexão se ela ainda NÃO existir.
-        // Isso evita que o sistema abra 50 conexões com o banco se 50 usuários entrarem no site, 
-        // economizando muita memória do servidor.
+    // ── Configurações de conexão ───────────────────────────────────
+    private const HOST   = 'localhost';
+    private const BANCO  = 'le_cafeteria';
+    private const USUARIO = 'root';    // XAMPP padrão
+    private const SENHA  = '';         // XAMPP padrão (sem senha)
+
+    /**
+     * Retorna a única instância PDO (Singleton).
+     * Cria a conexão na primeira chamada e reutiliza nas demais.
+     */
+    public static function getConexao(): PDO
+    {
         if (!isset(self::$instancia)) {
-            
-            // Tenta fazer a conexão (Bloco TRY)
             try {
-                // String de conexão (DSN): Qual banco?/ onde está? / e qual o nome do banco?
-                $dsn = 'mysql:host=localhost;dbname=le_cafeteria;charset=utf8';
-                $usuario = 'root';
-                $senha = '';
+                $dsn = 'mysql:host=' . self::HOST
+                     . ';dbname=' . self::BANCO
+                     . ';charset=utf8mb4';          // charset corrigido
 
-                // Instancia o objeto PDO (A ponte oficial do PHP com o banco)
-                self::$instancia = new PDO($dsn, $usuario, $senha);
-
-                // Configura o PDO para ser "fofoqueiro" e nos avisar de qualquer erro SQL
-                // Se der erro no SELECT ou INSERT, o PHP vai parar e mostrar o erro exato na tela
-                self::$instancia->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                
-            } 
-            // Se a tentativa falhar, ele cai aqui no CATCH e captura o erro ($e)
-            catch (PDOException $e) {
-                // Mata a execução do sistema e exibe a mensagem de erro
-                die("Erro crítico de Banco de Dados: " . $e->getMessage());
+                self::$instancia = new PDO(
+                    $dsn,
+                    self::USUARIO,
+                    self::SENHA,
+                    [
+                        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+                        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                        PDO::ATTR_EMULATE_PREPARES   => false,
+                    ]
+                );
+            } catch (PDOException $e) {
+                // Em produção: registre o erro em log e exiba msg genérica
+                error_log('[LE_CAFETERIA] BD: ' . $e->getMessage());
+                die('Não foi possível conectar ao banco de dados. Verifique o XAMPP e as credenciais em models/Conexao.php');
             }
         }
 
-        // Se a conexão já existia (ou se acabou de ser criada com sucesso), devolve ela pronta para uso
         return self::$instancia;
     }
 }
-
-?>
