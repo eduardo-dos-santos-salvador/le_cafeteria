@@ -17,7 +17,7 @@ class MenuModel
      */
     public static function listarPorPerfil(string $perfil): array
     {
-        $con  = Conexao::getConexao();
+        $con  = Conexao::getInstancia();
         $sql  = "SELECT label, url, icone
                  FROM   menu_itens
                  WHERE  perfil = :perfil AND ativo = 1

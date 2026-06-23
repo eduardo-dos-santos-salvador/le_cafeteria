@@ -6,17 +6,27 @@ function toggleNav() {
     btn.setAttribute("aria-expanded", isActive);
 }
 
-function toggleMenu(evt, menuName) {
+// A função recebe diretamente o elemento do botão clicado e o ID do menu
+function toggleMenu(event, menuName) {
+    // Suporte para o onclick="toggleMenu(event, 'eat')" original do seu HTML
+    const botaoClicado = event.currentTarget || event.target;
+    alternarAbasMenu(botaoClicado, menuName);
+}
+
+function alternarAbasMenu(botaoClicado, menuName) {
     const contents = document.querySelectorAll(".menu-content");
     const buttons = document.querySelectorAll(".tab-btn");
 
     contents.forEach(content => content.classList.remove("active"));
     buttons.forEach(btn => btn.classList.remove("active"));
 
-    document.getElementById(menuName).classList.add("active");
-    evt.currentTarget.classList.add("active");
+    const alvo = document.getElementById(menuName);
+    if (alvo) alvo.classList.add("active");
+    
+    if (botaoClicado) botaoClicado.classList.add("active");
 }
 
+// Vincula o fechamento do menu mobile ao clicar em um link
 document.querySelectorAll('.nav-links a').forEach(link => {
     link.addEventListener('click', () => {
         const nav = document.getElementById("navLinks");
@@ -55,13 +65,14 @@ function atualizarContadorMenu() {
 
 // FUNÇÃO INTEGRADA: Renderiza a lista se estiver na página de carrinho
 function renderizarCarrinho() {
+    // Atualiza o contador de bolinha no menu superior
+    atualizarContadorMenu();
+
     const container = document.getElementById('lista-carrinho');
     const totalDisplay = document.getElementById('valor-total');
     const btnPagamento = document.getElementById('btn-pagamento');
     
-    atualizarContadorMenu();
-
-    // Segurança: Se não encontrar o container da lista, para a execução aqui (evita erros em outras páginas)
+    // Segurança: Se não encontrar o container da lista (está no dashboard), para aqui sem quebrar o script
     if (!container) return;
 
     const carrinho = obterCarrinho();
@@ -115,17 +126,13 @@ function renderizarCarrinho() {
 }
 
 function limparCarrinho() {
-    // Remove os itens do armazenamento local do navegador
     localStorage.removeItem(CHAVE_CARRINHO);
     
-    // Força o contador visual a zerar imediatamente na tela atual
     const contador = document.getElementById('cartCounter');
     if (contador) contador.innerText = "0";
 
-    // Tenta limpar a lista visual caso o usuário ainda esteja na página do carrinho
     renderizarCarrinho();
     
-    // O TRUQUE: Redireciona o usuário de volta para a Home após garantir a limpeza
     window.location.href = "/le_cafeteria/index.php"; 
 }
 
@@ -211,23 +218,68 @@ window.addEventListener('storage', (event) => {
     }
 });
 
-// Execução ao carregar a página
+// Execução segura ao carregar a página (Apenas um bloco unificado)
 document.addEventListener('DOMContentLoaded', () => {
-    // Inicia os eventos de adicionar produtos (caso esteja na página da loja)
+    // Inicia os eventos de adicionar produtos do carrinho através do Controller
     PausaCafeCarrinhoController.iniciar();
-
-    // Segurança para o formulário de pagamento (só age se o formulário existir na página)
-    const form = document.querySelector('form[action="tipoPagamento.php"]');
-    if (form) {
-        form.addEventListener('submit', function(e) {
-            const carrinho = obterCarrinho();
-            if (carrinho.length === 0) {
-                e.preventDefault();
-                alert('Seu carrinho está vazio!');
+    
+    // Suporte para cliques alternativos nas abas utilizando data-target
+    const botoesAbas = document.querySelectorAll('.tab-btn');
+    botoesAbas.forEach(botao => {
+        botao.addEventListener('click', (event) => {
+            const alvoMenu = botao.getAttribute('data-target');
+            if (alvoMenu) {
+                alternarAbasMenu(event.currentTarget, alvoMenu);
             }
         });
+    });
+
+    // Gerenciamento seguro do formulário de finalização de pagamento
+    // Procure por este bloco dentro do seu DOMContentLoaded no script.js e substitua:
+const formFinalizar = document.getElementById('form-finalizar-pagamento');
+if (formFinalizar) {
+    formFinalizar.addEventListener('submit', function(event) {
+        const carrinho = obterCarrinho();
+        
+        if (!carrinho || carrinho.length === 0) {
+            event.preventDefault();
+            alert('Seu carrinho está vazio! Adicione itens no menu antes de pagar.');
+            return false;
+        }
+        
+        const inputOculto = document.getElementById('carrinho_itens');
+        const inputValorTotal = document.getElementById('valor_total_input');
+        
+        if (inputOculto) {
+            inputOculto.value = JSON.stringify(carrinho);
+        } else {
+            event.preventDefault();
+            alert('Erro técnico: O campo oculto do carrinho não foi encontrado.');
+            return false;
+        }
+
+        // Calcula e injeta o valor total tratando possíveis formatações erradas
+        if (inputValorTotal) {
+            let totalGeral = 0;
+            carrinho.forEach(item => {
+                // Garante que o preço seja um texto limpo e depois converte para número
+                let precoTexto = String(item.preco).replace(',', '.');
+                let precoNumerico = parseFloat(precoTexto) || 0;
+                let quantidadeNumerica = parseInt(item.quantidade) || 1;
+                
+                totalGeral += precoNumerico * quantidadeNumerica;
+            });
+            
+            // Injeta o valor formatado com duas casas decimais no input oculto
+            inputValorTotal.value = totalGeral.toFixed(2);
+            console.log("Valor total calculado enviado ao formulário:", inputValorTotal.value);
+        }
+        
+        // Remove o carrinho apenas no momento exato do envio
+        localStorage.removeItem(CHAVE_CARRINHO);
+    });
     }
 
-    // Tenta renderizar o carrinho (se não for a página dele, a própria função para sozinha)
+    // RENDERIZA O CARRINHO SE ESTIVER NA PÁGINA DELE
     renderizarCarrinho();
 });

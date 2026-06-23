@@ -2,12 +2,12 @@
 include_once 'includes/cabecalho.php';
 ?>
 
-<div class="login-container" style="margin-top: 90px">
+<div class="carrinho-pagina-exclusiva">
     <div class="section-title">
         <span>SEU CARRINHO</span>
     </div>
 
-    <div class="login-container" style="display: block;">
+    <div class="carrinho-conteudo-interno">
         <div id="lista-carrinho"></div>
 
         <div class="cart-total">
@@ -21,10 +21,11 @@ include_once 'includes/cabecalho.php';
             </button>
         </form>
         
-		<div class="pausaCafeCarrinho">
-        <button type="button" onclick="limparCarrinho()" class="button-tab-btn">
-    ESVAZIAR CARRINHO
-</button>
+        <div class="pausaCafeCarrinho" style="margin-top: 15px; text-align: center;">
+            <button type="button" onclick="limparCarrinho()" class="button-tab-btn">
+                ESVAZIAR CARRINHO
+            </button>
+        </div>
     </div>
 </div>
 

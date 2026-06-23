@@ -1,22 +1,26 @@
 <?php
 include_once 'includes/cabecalho.php';
+if (session_status() === PHP_SESSION_NONE) { session_start(); }
 ?>
 
-<div class="login-container" style="display: block;">
+<div class="login-container display-block-wrapper pagamento-wrapper">
     <div class="section-title">
         <span>FORMA DE PAGAMENTO</span>
     </div>
 
-    <!-- Container com a mesma estética do Cadastro/Menu -->
-    <div class="login-container" style="display: block;">
-        <form action="#" method="POST" class="signup-form">
+    <div class="login-container display-block-wrapper">
+        <form action="/le_cafeteria/controllers/PedidoController.php" method="POST" id="form-finalizar-pagamento" class="signup-form">
             
+            <input type="hidden" name="usuario_id" value="<?= $_SESSION['usuario_id'] ?? '' ?>">
+            <input type="hidden" name="carrinho_itens" id="carrinho_itens">
+            <input type="hidden" name="valor_total" id="valor_total_input">
+
             <div class="form-group">
-                <label style="font-family: 'Inconsolata', sans-serif; font-weight: bold; color: #3E2723; text-transform: uppercase; margin-bottom: 15px;">
+                <label class="label-pagamento-custom">
                     Como você deseja pagar?
                 </label>
                 
-                <select name="forma_pagamento" required style="background-color: transparent; border: none; border-bottom: 1px solid #ccc; padding: 10px 5px; width: 100%; font-family: 'Inconsolata', sans-serif; font-size: 16px;">
+                <select name="forma_pagamento" required class="select-pagamento-custom">
                     <option value="" disabled selected>Escolha a opção de pagamento</option>
                     <option value="pix">Pix (Aprovação imediata)</option>
                     <option value="credito">Cartão de Crédito</option>
@@ -25,13 +29,12 @@ include_once 'includes/cabecalho.php';
                 </select>
             </div>
 
-            <!-- Botão de Finalização da Compra -->
-            <button type="submit" class="btn-login" onclick="limparCarrinho()">
-    CONFIRMAR E PAGAR
-</button>
-			
-			<script src="/le_cafeteria/assets/js/script.js"></script>
-			</a>
+            <button type="submit" id="btn-confirmar-pagamento" class="btn-login">
+                CONFIRMAR E PAGAR
+            </button>
+            
         </form>
     </div>
 </div>
+
+<script src="/le_cafeteria/assets/js/script.js"></script>
