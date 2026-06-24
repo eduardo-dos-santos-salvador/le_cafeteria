@@ -26,31 +26,29 @@ $usuarioLogado = isset($_SESSION['usuario_id']);
                 Pausa.Café
             </a>
             
-            <div class="nav-links" id="navLinks">
+            <input type="checkbox" id="menu-check" style="display: none;">
+            <label for="menu-check" class="menu-toggle">☰</label>
+            
+<div class="nav-links <?= !$usuarioLogado ? 'menu-deslogado-centralizado' : '' ?>" id="navLinks">
                 <a href="/le_cafeteria/index.php?acao=#home">Home</a>
                 <a href="/le_cafeteria/index.php?acao=#about">Sobre</a>
                 <a href="/le_cafeteria/index.php?acao=#menu">Menu</a>
+                
+                <?php if ($usuarioLogado): ?>
+                    <a href="/le_cafeteria/views/contato.php">Fale Conosco</a>
+                    <a href="/le_cafeteria/views/cliente.php">Meus Pedidos</a>
+                <?php endif; ?>
                 
                 <?php if (!$usuarioLogado): ?>
                     <a href="/le_cafeteria/views/cadastro.php">Cadastre-se</a>
                     <a href="/le_cafeteria/views/login.php">Login</a>
                 <?php endif; ?>
-                
-                <a href="/le_cafeteria/views/contato.php">Fale Conosco</a>
             </div>
             
             <div class="nav-actions">
 
-                <button 
-                    class="menu-toggle" 
-                    onclick="toggleNav()" 
-                    aria-label="Abrir menu de navegação" 
-                    aria-expanded="false" 
-                    role="button">
-                    ☰
-                </button>
-
                 <?php if ($usuarioLogado): ?>
+                
                     <button
                         class="cart-button"
                         id="cartButton"

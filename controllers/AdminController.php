@@ -210,9 +210,10 @@ class AdminController {
         exit;
     }
 
-    public static function produtos() {
+public static function produtos() {
         self::check();
-        $produtos = Produtos::listarTodos(); 
+        // ALTERADO: Mudou de listarTodos() para listarTodosAdmin()
+        $produtos = Produtos::listarTodosAdmin(); 
         require_once __DIR__ . '/../views/admin/produtos_lista.php';
     }
 
@@ -250,13 +251,16 @@ class AdminController {
         require_once __DIR__ . '/../views/admin/produto_form.php';
     }
 
-    public static function salvar() {
+public static function salvar() {
         self::check();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'] ?? null;
             $nome = $_POST['nome'] ?? '';
             $desc = $_POST['desc_produto'] ?? '';
             
+            // CAPTURA O STATUS ATIVO DO FORMULÁRIO (Padrão 1 se não vier nada)
+            $ativo = isset($_POST['ativo']) ? (int)$_POST['ativo'] : 1;
+
             $categoria = $_POST['categoria'] ?? 'bebida';
             $desc = trim(preg_replace('/\[TIPO:(comida|bebida)\]/', '', $desc));
             $desc = $desc . " [TIPO:" . $categoria . "]";
@@ -277,10 +281,11 @@ class AdminController {
                 }
             }
 
+            // ATUALIZADO: Passando a variável $ativo para a Model salvar no banco de dados
             if (empty($id)) {
-                Produtos::criar($nome, $desc, $preco, $fotoPath);
+                Produtos::criar($nome, $desc, $preco, $fotoPath, $ativo);
             } else {
-                Produtos::atualizar((int)$id, $nome, $desc, $preco, $fotoPath);
+                Produtos::atualizar((int)$id, $nome, $desc, $preco, $fotoPath, $ativo);
             }
             header('Location: /le_cafeteria/index.php?controller=admin&action=produtos');
             exit;

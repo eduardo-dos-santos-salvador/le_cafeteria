@@ -274,11 +274,10 @@ body {
    7. RECONSTRUÇÃO COMPLETA E ISOLADA: BARISTA E CLIENTE (Original das Fotos)
    ========================================================================== */
 
-/* Container Principal do Conteúdo (Barista e Cliente) */
+/* Container Principal do Conteúdo (Barista e Cliente) - Agora estritamente isolado por classes */
 .view-container-barista,
 .view-container-cliente,
-.meus-pedidos-container,
-main {
+.meus-pedidos-container {
     padding: 40px 20px !important;
     max-width: 1200px !important;
     margin: 30px auto !important;
@@ -291,8 +290,7 @@ main {
 .view-title-barista,
 .view-title-cliente,
 #MeusPedidosTitle,
-.view-container-barista h1,
-main h1 {
+.view-container-barista h1 {
     font-size: 1.6rem !important;
     color: var(--cafe-escuro) !important;
     margin-bottom: 1.5rem !important;
@@ -301,15 +299,13 @@ main h1 {
 }
 
 /* Sistema original de Abas de Navegação (Barista) */
-.view-container-barista .abas,
-main .abas {
+.view-container-barista .abas {
     display: flex !important;
     gap: 10px !important;
     margin-bottom: 25px !important;
 }
 
-.view-container-barista .aba,
-main .aba {
+.view-container-barista .aba {
     padding: 8px 18px !important;
     border-radius: 6px !important;
     text-decoration: none !important;
@@ -321,19 +317,17 @@ main .aba {
 }
 
 .view-container-barista .aba.ativa, 
-.view-container-barista .aba:hover,
-main .aba.ativa,
-main .aba:hover {
+.view-container-barista .aba:hover {
     background-color: var(--cafe-escuro) !important;
     color: var(--cafe-claro) !important;
 }
 
-/* O Grid de Cards original das Fotos (Garante o alinhamento lado a lado) */
+/* O Grid de Cards original das Fotos (Apenas se estiver dentro de um container de pedidos) */
 .view-container-barista .pedidos-grid,
+.view-container-cliente .pedidos-grid,
+.meus-pedidos-container .pedidos-grid,
 .pedidos-grid,
-.grid-pedidos,
-main div:has(> .pedido-card),
-main div:has(> .card-pedido) {
+.grid-pedidos {
     display: grid !important;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
     gap: 20px !important;
@@ -342,7 +336,7 @@ main div:has(> .card-pedido) {
     margin-top: 20px !important;
 }
 
-/* O Card Branco com Sombra original (Aplica para .pedido-card ou .card-pedido) */
+/* O Card Branco com Sombra original */
 .pedido-card, 
 .card-pedido {
     background: var(--branco) !important;

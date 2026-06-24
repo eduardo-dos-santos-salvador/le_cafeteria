@@ -65,6 +65,8 @@ if (!empty($pedidos)) {
 }
 
 // ... todo o seu código PHP existente do barista ...
+$isBarista = true;
+
 require_once __DIR__ . '/../views/admin/cabecalho_admin.php';
 ?>
 

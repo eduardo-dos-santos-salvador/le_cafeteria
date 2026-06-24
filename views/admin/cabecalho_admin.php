@@ -16,10 +16,13 @@ if (session_status() === PHP_SESSION_NONE) session_start();
         
         <nav>
             <ul class="menu-admin">
-                <li><a href="/le_cafeteria/index.php?controller=admin">Início</a></li>
-                <li><a href="/le_cafeteria/index.php?controller=admin&action=produtos">Cardápio</a></li>
-                <li><a href="/le_cafeteria/index.php?controller=admin&action=pedidos">Pedidos</a></li>
-				<a href="/le_cafeteria/index.php?controller=admin&action=feedbacks">Feedbacks</a>
+                <?php if (!isset($isBarista)): ?>
+                    <li><a href="/le_cafeteria/index.php?controller=admin">Início</a></li>
+                    <li><a href="/le_cafeteria/index.php?controller=admin&action=produtos">Cardápio</a></li>
+					<li><a href="/le_cafeteria/index.php?controller=admin&action=usuarios">Usuários</a></li>
+                    <li><a href="/le_cafeteria/index.php?controller=admin&action=pedidos">Pedidos</a></li>
+                    <li><a href="/le_cafeteria/index.php?controller=admin&action=feedbacks">Feedbacks</a></li>
+                <?php endif; ?>
             </ul>
         </nav>
 

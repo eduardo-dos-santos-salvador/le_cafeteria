@@ -87,7 +87,10 @@ require_once __DIR__ . '/cabecalho_admin.php';
                                 🗑️ Desativar
                             </a>
                         <?php else: ?>
-                            <a href="/le_cafeteria/index.php?controller=admin&acao=reativar&id=<?= $p['id'] ?>" class="btn btn-success btn-sm">✅ Reativar</a>
+                            <a href="/le_cafeteria/index.php?controller=admin&acao=reativar&id=<?= $p['id'] ?>" 
+                               class="btn btn-success btn-sm">
+                                ✅ Reativar
+                            </a>
                         <?php endif; ?>
                     </div>
                 </td>

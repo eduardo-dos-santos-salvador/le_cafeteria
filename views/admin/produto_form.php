@@ -1,6 +1,6 @@
 <?php 
 /**
- * produto_form.php — Versão Final com Extração de Categoria via Descrição
+ * produto_form.php — Versão com Ativação/Desativação de Produto
  */
 require_once __DIR__ . '/cabecalho_admin.php'; 
 
@@ -8,6 +8,8 @@ $id_produto = $produto['id'] ?? '';
 $nome_produto = $produto['nome'] ?? '';
 $desc_original = $produto['desc_produto'] ?? '';
 $foto_produto = $produto['foto'] ?? '';
+// Captura o status ativo do banco (Padrão 1 se for novo produto)
+$ativo_produto = isset($produto['ativo']) ? (int)$produto['ativo'] : 1;
 
 // CAPTURA A CATEGORIA ESCONDIDA NA DESCRIÇÃO:
 $categoria_produto = 'bebida'; 
@@ -45,6 +47,14 @@ $tituloForm = (!empty($id_produto)) ? "Editar Produto #" . $id_produto : "Adicio
             <select id="categoria" name="categoria" required>
                 <option value="bebida" <?= $categoria_produto === 'bebida' ? 'selected' : '' ?>>De beber (Bebidas / Cafés)</option>
                 <option value="comida" <?= $categoria_produto === 'comida' ? 'selected' : '' ?>>De comer (Lanches / Doces)</option>
+            </select>
+        </div>
+
+        <div class="admin-input-block">
+            <label for="ativo">Status do Produto (Menu)</label>
+            <select id="ativo" name="ativo" required>
+                <option value="1" <?= $ativo_produto === 1 ? 'selected' : '' ?>>Ativo (Visível no menu)</option>
+                <option value="0" <?= $ativo_produto === 0 ? 'selected' : '' ?>>Inativo (Oculto no menu)</option>
             </select>
         </div>
 
