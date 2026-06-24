@@ -67,6 +67,8 @@ switch ($controller) {
             AdminController::desativar();
         } elseif ($action === 'reativar') {
             AdminController::reativar();
+        } elseif ($action === 'excluir') { // ── ROTA DE EXCLUSÃO DE PRODUTO ADICIONADA AQUI ──
+            AdminController::excluir();
             
         // ── ROTA DE PEDIDOS: Mapeia perfeitamente a URL para o método pedidos() ──
         } elseif ($action === 'pedidos') {

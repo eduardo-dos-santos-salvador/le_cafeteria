@@ -750,3 +750,12 @@ body.pagina-meus-pedidos-cliente {
     border-radius: 4px;
     font-weight: bold;
 }
+
+.btn-delete-perm {
+    background-color: #b71c1c;
+    color: #ffffff;
+}
+
+.btn-delete-perm:hover {
+    background-color: #7f0000;
+}

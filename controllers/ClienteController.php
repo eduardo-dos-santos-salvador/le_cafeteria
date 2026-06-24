@@ -15,8 +15,7 @@ class ClienteController {
         require_once __DIR__ . '/../views/cliente.php';
     }
 
-    
-    /** Processa o fechamento do pedido vindo do localStorage via POST JSON
+    /** * Processa o fechamento do pedido vindo do localStorage via POST JSON
      */
     public static function finalizarPedido() {
         if (session_status() === PHP_SESSION_NONE) session_start();
@@ -26,7 +25,6 @@ class ClienteController {
             exit;
         }
 
-        // Recupera o JSON enviado pelo formulário invisível
         $carrinhoJson = $_POST['carrinho_dados'] ?? '';
         $carrinho = json_decode($carrinhoJson, true);
 
@@ -40,21 +38,23 @@ class ClienteController {
             $con = Conexao::getInstancia();
             $con->beginTransaction();
 
-            $usuario_id = $_SESSION['usuario_id'];
-            $status_inicial = 'aguardando'; // Status crucial para o painel do barista
+            // Calcula valor total com segurança
+            $valor_total = 0;
+            foreach ($carrinho as $item) {
+                $preco = floatval(str_replace(',', '.', $item['preco'] ?? 0));
+                $qtd = (int)($item['quantidade'] ?? 1);
+                $valor_total += ($preco * $qtd);
+            }
 
-            // Salva o pedido inicial
-            $sqlPedido = "INSERT INTO pedido (usuario_id, status, criado_em, atualizado_em) 
-                          VALUES (:usuario_id, :status, NOW(), NOW())";
-            
-            $stmt = $con->prepare($sqlPedido);
-            $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
-            $stmt->bindParam(':status', $status_inicial, PDO::PARAM_STR);
-            $stmt->execute();
+            $sqlPedido = "INSERT INTO pedido (usuario_id, status_id, valor_total, criado_em) 
+                          VALUES (:usuario_id, 1, :valor_total, NOW())";
+            $stmtPedido = $con->prepare($sqlPedido);
+            $stmtPedido->bindValue(':usuario_id', $_SESSION['usuario_id'], PDO::PARAM_INT);
+            $stmtPedido->bindValue(':valor_total', $valor_total);
+            $stmtPedido->execute();
 
             $pedido_id = $con->lastInsertId();
 
-            // Salva os itens vinculados
             $sqlItens = "INSERT INTO itens_pedido (pedido_id, produto_id, quantidade) 
                          VALUES (:pedido_id, :produto_id, :quantidade)";
             $stmtItens = $con->prepare($sqlItens);
@@ -83,13 +83,6 @@ class ClienteController {
             header('Location: /le_cafeteria/index.php?controller=cliente');
             exit;
         }
-		
-		$pedido_id = Pedido::criar($_SESSION['user_id'], $valor_total); // Cria o pedido pai
-
-// Percorre os itens que estão salvos na sessão do carrinho
-foreach ($_SESSION['carrinho'] as $item) {
-    // Torna a classe útil inserindo cada linha no banco
-    ItensPedido::inserir($pedido_id, $item['id'], $item['quantidade'], $item['preco']);
-}
     }
 }
+// CORREÇÃO: Códigos soltos e loops remanescentes fora da classe foram eliminados completamente.

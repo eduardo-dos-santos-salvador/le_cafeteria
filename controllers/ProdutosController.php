@@ -1,4 +1,3 @@
-
 <?php
 /**
  * ProdutosController.php — Gerencia todas as ações do CRUD de produtos
@@ -70,7 +69,7 @@ class ProdutosController
             $produto = Produtos::buscarPorId($id);
             if (!$produto) {
                 $_SESSION['msg_erro'] = 'Produto não encontrado.';
-                header('Location: /le_cafeteria/admin.php?acao=listar');
+                header('Location: /le_cafeteria/index.php?controller=admin&action=produtos');
                 exit;
             }
         }
@@ -85,7 +84,7 @@ class ProdutosController
     private static function salvar(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: /le_cafeteria/admin.php?acao=listar');
+            header('Location: /le_cafeteria/index.php?controller=admin&action=produtos');
             exit;
         }
 
@@ -124,12 +123,12 @@ class ProdutosController
             }
         }
 
-        // Se tiver erros, volta ao formulário com os dados preenchidos
+        // Se tiver erros, volta ao formulário mantendo o padrão do index.php
         if (!empty($erros)) {
             $_SESSION['erros_form'] = $erros;
             $_SESSION['dados_form'] = $_POST;
-            $rota = $id ? "editar&id={$id}" : 'criar';
-            header("Location: /le_cafeteria/admin.php?acao={$rota}");
+            $acaoForm = $id ? "editar&id={$id}" : 'criar';
+            header("Location: /le_cafeteria/index.php?controller=admin&action=produtos&acao={$acaoForm}");
             exit;
         }
 
@@ -148,7 +147,7 @@ class ProdutosController
             $_SESSION['msg_erro'] = 'Erro ao salvar o produto. Tente novamente.';
         }
 
-        header('Location: /le_cafeteria/admin.php?acao=listar');
+        header('Location: /le_cafeteria/index.php?controller=admin&action=produtos');
         exit;
     }
 
@@ -162,7 +161,7 @@ class ProdutosController
 
         if (!$id) {
             $_SESSION['msg_erro'] = 'ID inválido.';
-            header('Location: /le_cafeteria/admin.php?acao=listar');
+            header('Location: /le_cafeteria/index.php?controller=admin&action=produtos');
             exit;
         }
 
@@ -174,7 +173,7 @@ class ProdutosController
             $_SESSION['msg_erro'] = 'Não foi possível remover o produto.';
         }
 
-        header('Location: /le_cafeteria/admin.php?acao=listar');
+        header('Location: /le_cafeteria/index.php?controller=admin&action=produtos');
         exit;
     }
 
@@ -184,7 +183,7 @@ class ProdutosController
 
         if (!$id) {
             $_SESSION['msg_erro'] = 'ID inválido.';
-            header('Location: /le_cafeteria/admin.php?acao=listar');
+            header('Location: /le_cafeteria/index.php?controller=admin&action=produtos');
             exit;
         }
 
@@ -196,7 +195,7 @@ class ProdutosController
             $_SESSION['msg_erro'] = 'Não foi possível reativar o produto.';
         }
 
-        header('Location: /le_cafeteria/admin.php?acao=listar');
+        header('Location: /le_cafeteria/index.php?controller=admin&action=produtos');
         exit;
     }
 
@@ -206,23 +205,19 @@ class ProdutosController
 
     private static function processarUpload(array $arquivo): array
     {
-        // Verifica erros do PHP no upload
         if ($arquivo['error'] !== UPLOAD_ERR_OK) {
             return ['erro' => 'Falha no envio da imagem. Tente novamente.'];
         }
 
-        // Valida tamanho (máx 2 MB)
         if ($arquivo['size'] > self::MAX_TAMANHO) {
             return ['erro' => 'A imagem deve ter no máximo 2 MB.'];
         }
 
-        // Valida tipo MIME real (não confia no nome do arquivo)
         $tipoReal = mime_content_type($arquivo['tmp_name']);
         if (!in_array($tipoReal, self::TIPOS_VALIDOS, true)) {
             return ['erro' => 'Formato inválido. Use JPG, PNG ou WebP.'];
         }
 
-        // Define a extensão correta com base no tipo real
         $extensoes = [
             'image/jpeg' => 'jpg',
             'image/png'  => 'png',
@@ -230,10 +225,8 @@ class ProdutosController
         ];
         $ext = $extensoes[$tipoReal];
 
-        // Gera nome único e seguro para o arquivo
         $nomeSeguro = uniqid('produto_', true) . '.' . $ext;
 
-        // Cria a pasta se não existir
         if (!is_dir(self::PASTA_UPLOAD)) {
             mkdir(self::PASTA_UPLOAD, 0755, true);
         }

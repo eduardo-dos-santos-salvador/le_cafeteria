@@ -329,6 +329,26 @@ public static function salvar() {
         header('Location: /le_cafeteria/index.php?controller=admin&action=produtos');
         exit;
     }
+	
+	public static function excluir() {
+        self::check();
+        $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
+        
+        if ($id) { 
+            require_once __DIR__ . '/../models/Conexao.php';
+            $con = Conexao::getInstancia();
+            
+            // Deleta o produto fisicamente do banco de dados
+            $sql = "DELETE FROM produtos WHERE id = :id";
+            $stmt = $con->prepare($sql);
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute(); 
+        }
+        
+        // Redireciona de volta para a lista com action no padrão correto
+        header('Location: /le_cafeteria/index.php?controller=admin&action=produtos');
+        exit;
+    }
 
     private static function check() {
         if (session_status() === PHP_SESSION_NONE) session_start();

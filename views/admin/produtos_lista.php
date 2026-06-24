@@ -1,6 +1,6 @@
 <?php
 /**
- * produtos_lista.php — Listagem de produtos para o painel admin
+ * produtos_lista.php — Listagem de produtos para o painel admin com exclusão permanente
  */
 require_once __DIR__ . '/cabecalho_admin.php';
 ?>
@@ -89,9 +89,15 @@ require_once __DIR__ . '/cabecalho_admin.php';
                         <?php else: ?>
                             <a href="/le_cafeteria/index.php?controller=admin&acao=reativar&id=<?= $p['id'] ?>" 
                                class="btn btn-success btn-sm">
-                                ✅ Reativar
+                                 ✅ Reativar
                             </a>
                         <?php endif; ?>
+
+<a href="/le_cafeteria/index.php?controller=admin&action=excluir&id=<?= $p['id'] ?>"
+   class="btn btn-delete-perm btn-sm"
+   onclick="return confirm('PERIGO: Tem certeza que deseja apagar permanentemente o produto «<?= htmlspecialchars(addslashes($p['nome'])) ?>» do banco de dados? Essa ação não pode ser desfeita!')">
+   ❌ Excluir
+</a>
                     </div>
                 </td>
             </tr>
