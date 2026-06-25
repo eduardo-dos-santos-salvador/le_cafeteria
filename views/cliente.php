@@ -16,13 +16,16 @@ if (!isset($_SESSION['usuario_id'])) {
 
 require_once __DIR__ . '/../models/Conexao.php';
 
-$acao       = $_GET['acao'] ?? 'pedidos';
+$acao         = $_GET['acao'] ?? 'pedidos';
 $usuario_id = (int) $_SESSION['usuario_id'];
 $usuarioLogado = isset($_SESSION['usuario_id']);
 
 $con  = Conexao::getInstancia();
-$sql  = "SELECT p.*
+
+// 🔄 ATUALIZADO: Agora faz JOIN com status_pedido para trazer a coluna desc_status
+$sql  = "SELECT p.*, s.desc_status
          FROM pedido p
+         JOIN status_pedido s ON s.id = p.status_id
          WHERE p.usuario_id = :uid
          ORDER BY p.criado_em DESC
          LIMIT 50";
@@ -115,10 +118,25 @@ if (!empty($pedidos)) {
                     <div class="pedido-card">
                         <div class="cabecalho">
                             <span class="numero">Pedido #<?= $ped['id'] ?></span>
-                            <span class="status-badge status-<?= $ped['status'] ?>"><?= $ped['status'] ?></span>
+                            <span class="status-badge status-<?= htmlspecialchars($ped['desc_status']) ?>">
+                                <?= htmlspecialchars(ucfirst($ped['desc_status'])) ?>
+                            </span>
                         </div>
                         
                         <span class="hora">Análise criada em: <?= date('d/m/Y H:i', strtotime($ped['criado_em'])) ?></span>
+
+                        <div class="pagamento-info-card">
+                            <strong>Forma de Pagamento:</strong> 
+                            <?php 
+                                switch(strtolower($ped['forma_pagto'] ?? '')) {
+                                    case 'pix': echo 'Pix'; break;
+                                    case 'credito': echo 'Cartão de Crédito'; break;
+                                    case 'debito': echo 'Cartão de Débito'; break;
+                                    case 'dinheiro': echo 'Dinheiro / Balcão'; break;
+                                    default: echo htmlspecialchars(ucfirst($ped['forma_pagto'] ?? 'Não informada'));
+                                }
+                            ?>
+                        </div>
 
                         <ul class="itens-pedido">
                             <?php foreach ($itensPorPedido[$ped['id']] ?? [] as $it): ?>

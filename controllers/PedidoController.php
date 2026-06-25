@@ -36,18 +36,21 @@ class PedidoController {
 
             try {
                 $con = Conexao::getInstancia();
-                $con->beginTransaction();
+$con->beginTransaction();
 
-                $sqlPedido = "INSERT INTO pedido (usuario_id, status_id, valor_total, forma_pagto, criado_em) 
-                              VALUES (:usuario_id, 1, :valor_total, :forma_pagamento, NOW())";
-                $stmtPedido = $con->prepare($sqlPedido);
-                $stmtPedido->bindValue(':usuario_id', $usuario_id, PDO::PARAM_INT);
-                $stmtPedido->bindValue(':valor_total', $valor_total);
-                $stmtPedido->bindValue(':forma_pagamento', $forma_pagamento, PDO::PARAM_STR);
-                $stmtPedido->execute();
+// 🔄 ATUALIZADO: Agora insere a coluna status_id recebendo o número 1
+$sqlPedido = "INSERT INTO pedido (usuario_id, total, status_id, forma_pagto, criado_em) 
+              VALUES (:usuario_id, :total, 1, :forma_pagto, NOW())";
+
+$stmtPedido = $con->prepare($sqlPedido);
+$stmtPedido->bindValue(':usuario_id', $usuario_id, PDO::PARAM_INT);
+$stmtPedido->bindValue(':total', $valor_total);
+$stmtPedido->bindValue(':forma_pagto', $forma_pagamento, PDO::PARAM_STR);
+$stmtPedido->execute();
 
                 $pedido_id = $con->lastInsertId();
 
+                // 2. Grava cada item do carrinho
                 $sqlItem = "INSERT INTO itens_pedido (pedido_id, produto_id, quantidade, preco_unit) 
                             VALUES (:pedido_id, :produto_id, :quantidade, :preco_unit)";
                 $stmtItem = $con->prepare($sqlItem);
@@ -70,21 +73,33 @@ class PedidoController {
                 }
 
                 $con->commit();
-                header("Location: /le_cafeteria/index.php?controller=barista&acao=fila");
+                
+                // 🔄 REDIRECIONAMENTO CORRIGIDO: Leva o usuário direto para ver o histórico dele
+                header("Location: /le_cafeteria/views/cliente.php");
                 exit;
 
             } catch (PDOException $e) {
                 if (isset($con) && $con->inTransaction()) {
                     $con->rollBack();
                 }
-                die("Erro de Banco de Dados: " . $e->getMessage());
+                die("Erro de Banco de Dados no Controller: " . $e->getMessage());
             } catch (Exception $e) {
                 if (isset($con) && $con->inTransaction()) {
                     $con->rollBack();
                 }
-                die("Erro Geral: " . $e->getMessage());
+                die("Erro Geral no Controller: " . $e->getMessage());
             }
         }
     }
 }
-// CORREÇÃO: Chamada estática solta removida daqui para não travar o servidor
+
+// Intercepta e executa a requisição POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    PedidoController::finalizar();
+}
+
+// Se tentarem acessar direto via link (GET), chuta de volta para o menu
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    header("Location: /le_cafeteria/index.php?acao=#menu");
+    exit;
+}

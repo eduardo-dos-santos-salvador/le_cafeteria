@@ -1,4 +1,7 @@
 <?php
+/**
+ * AdminController.php — Controlador da Área Administrativa
+ */
 require_once __DIR__ . '/../models/Usuario.php';
 require_once __DIR__ . '/../models/Produtos.php'; 
 
@@ -121,7 +124,7 @@ class AdminController {
                 try {
                     $con->beginTransaction();
 
-                    // 1. Atualização dos Dados Gerais do Usuário
+                    // 1. Mudança dos Dados Gerais do Usuário
                     if (!empty($_POST['senha'])) {
                         $senhaHash = password_hash($_POST['senha'], PASSWORD_DEFAULT);
                         $sql = "UPDATE usuario SET nome = :nome, email = :email, senha = :senha, cpf = :cpf, telefone = :telefone, tipo_user_id = :tipo WHERE id = :id";
@@ -145,14 +148,8 @@ class AdminController {
                     $stmtCheck->execute([':uid' => $id]);
 
                     if ($stmtCheck->fetch()) {
-                        // CORREÇÃO: Mudado WHERE de 'user_id' para 'usuario_id'
-                        $sqlEnd = "UPDATE endereco SET logradouro = :logradouro, numero = :numero, complemento = :complemento, bairro = :bairro, city = :cidade, cep = :cep WHERE usuario_id = :user_id";
-                        
-                        // NOTA IMPORTANTE: Verifique se no banco a coluna é 'cidade' ou 'city'. 
-                        // Se o erro mudar de nome para 'city', altere a linha acima de 'city = :cidade' para 'cidade = :cidade'
                         $sqlEnd = "UPDATE endereco SET logradouro = :logradouro, numero = :numero, complemento = :complemento, bairro = :bairro, cidade = :cidade, cep = :cep WHERE usuario_id = :user_id";
                     } else {
-                        // CORREÇÃO: Mudado o campo de inserção para usuario_id
                         $sqlEnd = "INSERT INTO endereco (usuario_id, logradouro, numero, complemento, bairro, cidade, uf, cep) VALUES (:user_id, :logradouro, :numero, :complemento, :bairro, :cidade, 'DF', :cep)";
                     }
 
@@ -210,21 +207,23 @@ class AdminController {
         exit;
     }
 
-public static function produtos() {
+    public static function produtos() {
         self::check();
-        // ALTERADO: Mudou de listarTodos() para listarTodosAdmin()
         $produtos = Produtos::listarTodosAdmin(); 
         require_once __DIR__ . '/../views/admin/produtos_lista.php';
     }
 
+    // ====== AÇÃO: LISTAGEM GERAL DE PEDIDOS COM STATUS CORRIGIDO ======
     public static function pedidos() {
         self::check();
         require_once __DIR__ . '/../models/Conexao.php';
         $con = Conexao::getInstancia();
         
-        $sql = "SELECT p.*, u.nome AS cliente 
+        // 🔄 CORRIGIDO: Incluído JOIN com status_pedido e selecionado s.desc_status
+        $sql = "SELECT p.*, u.nome AS cliente, s.desc_status 
                 FROM pedido p 
                 JOIN usuario u ON u.id = p.usuario_id 
+                JOIN status_pedido s ON s.id = p.status_id
                 ORDER BY p.criado_em DESC";
                 
         $stmt = $con->prepare($sql);
@@ -251,14 +250,13 @@ public static function produtos() {
         require_once __DIR__ . '/../views/admin/produto_form.php';
     }
 
-public static function salvar() {
+    public static function salvar() {
         self::check();
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id = $_POST['id'] ?? null;
             $nome = $_POST['nome'] ?? '';
             $desc = $_POST['desc_produto'] ?? '';
             
-            // CAPTURA O STATUS ATIVO DO FORMULÁRIO (Padrão 1 se não vier nada)
             $ativo = isset($_POST['ativo']) ? (int)$_POST['ativo'] : 1;
 
             $categoria = $_POST['categoria'] ?? 'bebida';
@@ -281,7 +279,6 @@ public static function salvar() {
                 }
             }
 
-            // ATUALIZADO: Passando a variável $ativo para a Model salvar no banco de dados
             if (empty($id)) {
                 Produtos::criar($nome, $desc, $preco, $fotoPath, $ativo);
             } else {
@@ -291,8 +288,8 @@ public static function salvar() {
             exit;
         }
     }
-	
-// ====== MÉTODO: VISUALIZAR FEEDBACKS DOS CLIENTES ======
+    
+    // ====== MÉTODO: VISUALIZAR FEEDBACKS DOS CLIENTES ======
     public static function feedbacks() {
         self::check();
         
@@ -308,7 +305,6 @@ public static function salvar() {
         $stmt->execute();
         $feedbacks = $stmt->fetchAll(PDO::FETCH_ASSOC);
         
-        // 🛠️ Alinhado perfeitamente com o nome no plural que você colocou na pasta!
         $caminhoView = dirname(__DIR__) . DIRECTORY_SEPARATOR . 'views' . DIRECTORY_SEPARATOR . 'admin' . DIRECTORY_SEPARATOR . 'feedbacks_lista.php';
         
         require_once $caminhoView;
@@ -329,8 +325,8 @@ public static function salvar() {
         header('Location: /le_cafeteria/index.php?controller=admin&action=produtos');
         exit;
     }
-	
-	public static function excluir() {
+    
+    public static function excluir() {
         self::check();
         $id = isset($_GET['id']) ? (int)$_GET['id'] : null;
         
@@ -338,14 +334,12 @@ public static function salvar() {
             require_once __DIR__ . '/../models/Conexao.php';
             $con = Conexao::getInstancia();
             
-            // Deleta o produto fisicamente do banco de dados
             $sql = "DELETE FROM produtos WHERE id = :id";
             $stmt = $con->prepare($sql);
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $stmt->execute(); 
         }
         
-        // Redireciona de volta para a lista com action no padrão correto
         header('Location: /le_cafeteria/index.php?controller=admin&action=produtos');
         exit;
     }

@@ -283,3 +283,19 @@ if (formFinalizar) {
     // RENDERIZA O CARRINHO SE ESTIVER NA PÁGINA DELE
     renderizarCarrinho();
 });
+
+// Lógica para mostrar/esconder a chave Pix dinamicamente
+document.addEventListener('DOMContentLoaded', function() {
+    const selectPagamento = document.getElementById('select-forma-pagamento');
+    const containerPix = document.getElementById('container-chave-pix');
+
+    if (selectPagamento && containerPix) {
+        selectPagamento.addEventListener('change', function() {
+            if (this.value === 'pix') {
+                containerPix.classList.add('mostrar'); // Adiciona a classe que exibe o bloco
+            } else {
+                containerPix.classList.remove('mostrar'); // Remove nas outras opções
+            }
+        });
+    }
+});

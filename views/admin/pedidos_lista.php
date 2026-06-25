@@ -4,7 +4,7 @@
  */
 require_once __DIR__ . '/cabecalho_admin.php';
 
-// Labels e cores de status (Os mapeamentos agora utilizam classes mapeadas nativamente no admin.css)
+// Labels e cores de status (Mapeamento baseado nas novas descrições de banco vindas da tabela status_pedido)
 $badges = [
     'aguardando' => 'background: var(--alerta-bg); color: var(--alerta);',
     'preparando' => 'background: var(--info-bg); color: var(--info-cor);',
@@ -30,15 +30,17 @@ $badges = [
         </thead>
         <tbody>
         <?php foreach ($pedidos as $p):
-            $estiloDinamico = $badges[$p['status']] ?? 'background:#eee; color:#333;';
+            // 🔄 ATUALIZADO: Agora busca a cor com base em $p['desc_status']
+            $statusNome = strtolower($p['desc_status'] ?? '');
+            $estiloDinamico = $badges[$statusNome] ?? 'background:#eee; color:#333;';
         ?>
             <tr>
                 <td>#<?= $p['id'] ?></td>
-                <td><?= htmlspecialchars($p['cliente']) ?></td>
+                <td><?= htmlspecialchars($p['cliente'] ?? 'Cliente Desconhecido') ?></td>
                 <td><strong>R$ <?= number_format($p['total'], 2, ',', '.') ?></strong></td>
                 <td>
                     <span class="badge" style="<?= $estiloDinamico ?>">
-                        <?= $p['status'] ?>
+                        <?= htmlspecialchars(ucfirst($statusNome)) ?>
                     </span>
                 </td>
                 <td><?= date('d/m/Y H:i', strtotime($p['criado_em'])) ?></td>

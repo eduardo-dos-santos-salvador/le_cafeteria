@@ -13,7 +13,17 @@ class BaristaController {
             exit;
         }
 
-        // Carrega a view que já faz a busca dos pedidos e dos itens_pedido
+        // 🚀 O PULO DO GATO: Garante que a variável 'acao' chegue sã e salva na View
+        // Se nenhuma ação for informada, o padrão vira 'fila'
+        if (!isset($_GET['acao']) && isset($_GET['action'])) {
+            $_GET['acao'] = $_GET['action'];
+        }
+        
+        if (!isset($_GET['acao'])) {
+            $_GET['acao'] = 'fila';
+        }
+
+        // Carrega a view que agora vai ler o $_GET['acao'] reconfigurado corretamente
         require_once __DIR__ . '/../views/barista.php';
     }
 }

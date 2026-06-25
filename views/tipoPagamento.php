@@ -20,7 +20,7 @@ if (session_status() === PHP_SESSION_NONE) { session_start(); }
                     Como você deseja pagar?
                 </label>
                 
-                <select name="forma_pagamento" required class="select-pagamento-custom">
+                <select name="forma_pagamento" id="select-forma-pagamento" required class="select-pagamento-custom">
                     <option value="" disabled selected>Escolha a opção de pagamento</option>
                     <option value="pix">Pix (Aprovação imediata)</option>
                     <option value="credito">Cartão de Crédito</option>
@@ -29,7 +29,21 @@ if (session_status() === PHP_SESSION_NONE) { session_start(); }
                 </select>
             </div>
 
-            <button type="submit" id="btn-confirmar-pagamento" class="btn-login">
+<div class="form-group pix-box" id="container-chave-pix">
+                <label class="label-pagamento-custom pix-box-title">
+                    CHAVE PIX PARA PAGAMENTO:
+                </label>
+                
+                <div class="pix-key-container">
+                    <code class="pix-key">12.345.678/0001-99</code>
+                </div>
+                
+                <p class="pix-box-info">
+                    O pedido será enviado para a fila de preparo assim que o pagamento for confirmado.
+                </p>
+            </div>
+
+            <button type="submit" id="btn-confirmar-pagamento" class="btn-login btn-pagamento-submit">
                 CONFIRMAR E PAGAR
             </button>
             

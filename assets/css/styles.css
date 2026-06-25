@@ -759,3 +759,100 @@ body.pagina-meus-pedidos-cliente {
 .btn-delete-perm:hover {
     background-color: #7f0000;
 }
+
+/* Container principal do Pix bem compacto e sem folgas */
+.form-group.pix-box {
+    display: none; 
+    background: #fdfaf6;
+    padding: 10px 15px !important; /* Força um preenchimento interno bem pequeno */
+    border-radius: 8px;
+    border: 1px dashed #d1c4b6;
+    margin-top: 5px !important;    /* Reduz drasticamente o espaço acima da caixa */
+    margin-bottom: 5px !important; /* Reduz o espaço abaixo da caixa */
+    text-align: center;
+}
+
+/* Força a exibição quando ativo */
+.form-group.pix-box.mostrar {
+    display: block !important;
+}
+
+/* Remove qualquer margem exagerada do título */
+.pix-box-title {
+    font-weight: bold;
+    color: #5c3a21;
+    display: block;
+    margin: 0 0 4px 0 !important; /* Margem apenas na parte de baixo bem pequena */
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+}
+
+/* Zera as margens ao redor da chave */
+.pix-key-container {
+    margin: 0 0 4px 0 !important; /* Espaço mínimo abaixo da chave */
+    padding: 0 !important;
+}
+
+/* Chave Pix menor e justa */
+.pix-key {
+    font-size: 1.4rem; /* Reduzido o tamanho da fonte para não esticar o bloco */
+    color: #8b5a2b;
+    font-weight: bold;
+    background: #fff;
+    padding: 4px 12px !important; /* Diminui a moldura branca interna */
+    border: 1px solid #e6ded6;
+    border-radius: 4px;
+    display: inline-block;
+    word-break: break-all;
+    font-family: sans-serif;
+}
+
+/* Texto de instrução colado na chave */
+.pix-box-info {
+    display: block;
+    color: #666;
+    font-size: 0.85rem;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    max-width: 420px;
+    line-height: 1.2;
+}
+
+/* Cola o botão de enviar logo abaixo do bloco */
+.btn-pagamento-submit {
+    margin-top: 10px !important;
+}
+
+/* Remove o espaçamento exagerado entre o título marrom e o select */
+.pagamento-wrapper {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
+
+.pagamento-wrapper .section-title {
+    margin-bottom: 20px; /* Cola o título marrom na caixa branca debaixo */
+}
+
+/* Ajusta as duas divs que usam login-container no mesmo arquivo */
+.pagamento-wrapper .login-container {
+    margin-top: 0 !important;
+    padding-top: 5px !important;
+}
+
+/* Ajusta o espaço interno da pergunta "Como você deseja pagar?" */
+.pagamento-wrapper .form-group:first-of-type {
+    margin-top: 0 !important;
+    margin-bottom: 10px !important;
+}
+
+/* Nova classe para formatar o texto da forma de pagamento no card do cliente */
+.pagamento-info-card {
+    margin-top: 6px;
+    font-size: 0.9rem;
+    color: #5c3a21; /* Cor marrom padrão do Pausa.Café */
+}
+
+/* Garante um espaço seguro para a lista de itens logo abaixo */
+.pedido-card .itens-pedido {
+    margin-top: 12px !important;
+}
